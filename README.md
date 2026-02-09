@@ -1,3 +1,15 @@
-✨[doyouwannagooutwithme.com](http://doyouwannagooutwithme.com) 
+# Do you wanna go out with me?
 
-A website to invite your lover for a date 🥰
+A cute little web page to ask someone out. The "No" button runs away — good luck pressing it.
+
+## Tech Stack
+
+- **Vite** + **Vue 3** (Composition API / `<script setup>`)
+- Node.js 22
+
+## Getting Started
+
+```bash
+npm install
+npm run dev
+```
