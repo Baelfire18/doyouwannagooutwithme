@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, nextTick, onMounted, onUnmounted } from 'vue'
 import { EscapeTrigger } from '../types'
 import type { Position } from '../types'
 
@@ -16,8 +16,6 @@ function escapeButton(reason: EscapeTrigger): void {
   console.log(`[escapeButton] triggered by: ${reason}`)
   if (!noBtn.value || !container.value) return
 
-  hasEscaped.value = true
-
   const btnRect: DOMRect = noBtn.value.getBoundingClientRect()
 
   // Calculate safe bounds so the button stays fully visible inside viewport
@@ -29,7 +27,7 @@ function escapeButton(reason: EscapeTrigger): void {
   let newY: number = 0
   let attempts: number = 0
 
-  // Keep generating positions until we find one far enough from the cursor area
+  // Keep generating positions until we find one far enough from the current position
   do {
     newX = padding + Math.random() * (maxX - padding)
     newY = padding + Math.random() * (maxY - padding)
@@ -40,7 +38,20 @@ function escapeButton(reason: EscapeTrigger): void {
     Math.abs(newY - btnRect.top) < 150
   )
 
-  noPosition.value = { x: newX, y: newY }
+  if (!hasEscaped.value) {
+    // First escape: pin the button at its current in-flow position,
+    // then on the next frame move it to the random spot so the CSS transition kicks in.
+    noPosition.value = { x: btnRect.left, y: btnRect.top }
+    hasEscaped.value = true
+
+    nextTick((): void => {
+      requestAnimationFrame((): void => {
+        noPosition.value = { x: newX, y: newY }
+      })
+    })
+  } else {
+    noPosition.value = { x: newX, y: newY }
+  }
 }
 
 function handleYes(): void {
@@ -72,9 +83,7 @@ onUnmounted((): void => {
     <div class="w-48 sm:w-56 md:w-72 aspect-square rounded-2xl overflow-hidden shadow-2xl">
       <img
         src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtZ2JiZDR0a3lvMWF4OG8yc3p6Ymdvd3g2d245amdveDhyYmx6eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif"
-        alt="Cute bear asking you out"
-        class="w-full h-full object-cover block"
-      />
+        alt="Cute bear asking you out" class="w-full h-full object-cover block" />
     </div>
 
     <div class="flex gap-5 justify-center items-center">
@@ -85,10 +94,21 @@ onUnmounted((): void => {
         Yes
       </button>
 
+      <!-- Invisible placeholder keeps the layout stable when No escapes -->
+      <span
+        v-if="hasEscaped"
+        class="inline-block py-3.5 px-10 text-lg font-bold invisible"
+        aria-hidden="true"
+      >
+        No
+      </span>
+
+      <!-- Single No button: starts in-flow next to Yes, becomes fixed once escaped -->
       <button
-        v-if="!hasEscaped"
         ref="noBtn"
-        class="font-nunito text-lg font-bold py-3.5 px-10 border-none rounded-full cursor-pointer transition-[transform,box-shadow] duration-200 ease-in-out hover:scale-105 active:scale-95 bg-white text-brand-dark shadow-md hover:shadow-lg"
+        class="btn-no-escaped font-nunito text-lg font-bold py-3.5 px-10 border-none rounded-full cursor-pointer hover:scale-105 active:scale-95 bg-white text-brand-dark shadow-md hover:shadow-lg"
+        :class="hasEscaped ? 'fixed z-100' : 'relative'"
+        :style="hasEscaped ? { left: noPosition.x + 'px', top: noPosition.y + 'px' } : {}"
         @mouseenter="escapeButton(EscapeTrigger.MouseEnter)"
         @click="escapeButton(EscapeTrigger.Click)"
         @touchstart.prevent="escapeButton(EscapeTrigger.TouchStart)"
@@ -96,21 +116,5 @@ onUnmounted((): void => {
         No
       </button>
     </div>
-
-    <!-- Once escaped, the No button becomes fixed-position and keeps running away -->
-    <button
-      v-if="hasEscaped"
-      ref="noBtn"
-      class="btn-no-escaped fixed z-100 font-nunito text-lg font-bold py-3.5 px-10 border-none rounded-full cursor-pointer hover:scale-105 active:scale-95 bg-white text-brand-dark shadow-md hover:shadow-lg"
-      :style="{
-        left: noPosition.x + 'px',
-        top: noPosition.y + 'px',
-      }"
-      @mouseenter="escapeButton(EscapeTrigger.MouseEnter)"
-      @click="escapeButton(EscapeTrigger.Click)"
-      @touchstart.prevent="escapeButton(EscapeTrigger.TouchStart)"
-    >
-      No
-    </button>
   </div>
 </template>
