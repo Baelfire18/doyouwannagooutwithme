@@ -1,28 +1,33 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import { EscapeTrigger } from '../types'
+import type { Position } from '../types'
 
-const emit = defineEmits(['yes'])
+const emit = defineEmits<{
+  yes: []
+}>()
 
-const noBtn = ref(null)
-const container = ref(null)
-const noPosition = ref({ x: 0, y: 0 })
-const hasEscaped = ref(false)
+const noBtn = ref<HTMLButtonElement | null>(null)
+const container = ref<HTMLDivElement | null>(null)
+const noPosition = ref<Position>({ x: 0, y: 0 })
+const hasEscaped = ref<boolean>(false)
 
-function escapeButton(reason = 'unknown') {
+function escapeButton(reason: EscapeTrigger): void {
   console.log(`[escapeButton] triggered by: ${reason}`)
   if (!noBtn.value || !container.value) return
 
   hasEscaped.value = true
 
-  const btnRect = noBtn.value.getBoundingClientRect()
+  const btnRect: DOMRect = noBtn.value.getBoundingClientRect()
 
   // Calculate safe bounds so the button stays fully visible inside viewport
-  const padding = 20
-  const maxX = window.innerWidth - btnRect.width - padding
-  const maxY = window.innerHeight - btnRect.height - padding
+  const padding: number = 20
+  const maxX: number = window.innerWidth - btnRect.width - padding
+  const maxY: number = window.innerHeight - btnRect.height - padding
 
-  let newX, newY
-  let attempts = 0
+  let newX: number = 0
+  let newY: number = 0
+  let attempts: number = 0
 
   // Keep generating positions until we find one far enough from the cursor area
   do {
@@ -38,22 +43,22 @@ function escapeButton(reason = 'unknown') {
   noPosition.value = { x: newX, y: newY }
 }
 
-function handleYes() {
+function handleYes(): void {
   emit('yes')
 }
 
 // Reset position on resize so the button doesn't end up offscreen
-function handleResize() {
+function handleResize(): void {
   if (hasEscaped.value) {
-    escapeButton('resize')
+    escapeButton(EscapeTrigger.Resize)
   }
 }
 
-onMounted(() => {
+onMounted((): void => {
   window.addEventListener('resize', handleResize)
 })
 
-onUnmounted(() => {
+onUnmounted((): void => {
   window.removeEventListener('resize', handleResize)
 })
 </script>
@@ -86,9 +91,9 @@ onUnmounted(() => {
         v-if="!hasEscaped"
         ref="noBtn"
         class="font-nunito text-lg font-bold py-3.5 px-10 border-none rounded-full cursor-pointer transition-[transform,box-shadow] duration-200 ease-in-out hover:scale-105 active:scale-[0.97] bg-white text-[#7d3c98] shadow-[0_4px_15px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.15)]"
-        @mouseenter="escapeButton('mouseenter')"
-        @click="escapeButton('click')"
-        @touchstart.prevent="escapeButton('touchstart')"
+        @mouseenter="escapeButton(EscapeTrigger.MouseEnter)"
+        @click="escapeButton(EscapeTrigger.Click)"
+        @touchstart.prevent="escapeButton(EscapeTrigger.TouchStart)"
       >
         No
       </button>
@@ -103,9 +108,9 @@ onUnmounted(() => {
         left: noPosition.x + 'px',
         top: noPosition.y + 'px',
       }"
-      @mouseenter="escapeButton('mouseenter')"
-      @click="escapeButton('click')"
-      @touchstart.prevent="escapeButton('touchstart')"
+      @mouseenter="escapeButton(EscapeTrigger.MouseEnter)"
+      @click="escapeButton(EscapeTrigger.Click)"
+      @touchstart.prevent="escapeButton(EscapeTrigger.TouchStart)"
     >
       No
     </button>

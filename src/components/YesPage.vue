@@ -1,20 +1,21 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import type { CSSProperties } from 'vue'
 
-const showContent = ref(false)
+const showContent = ref<boolean>(false)
 
-onMounted(() => {
+onMounted((): void => {
   // Small delay so the fade-in from App.vue finishes first
-  setTimeout(() => {
+  setTimeout((): void => {
     showContent.value = true
   }, 100)
 })
 
-function heartStyle(i) {
-  const left = Math.random() * 100
-  const delay = Math.random() * 5
-  const duration = 4 + Math.random() * 4
-  const size = 14 + Math.random() * 20
+function heartStyle(_index: number): CSSProperties {
+  const left: number = Math.random() * 100
+  const delay: number = Math.random() * 5
+  const duration: number = 4 + Math.random() * 4
+  const size: number = 14 + Math.random() * 20
   return {
     left: `${left}%`,
     animationDelay: `${delay}s`,

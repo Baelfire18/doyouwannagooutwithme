@@ -1,11 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import AskPage from './components/AskPage.vue'
 import YesPage from './components/YesPage.vue'
 
-const saidYes = ref(false)
+const saidYes = ref<boolean>(false)
 
-function onYes() {
+function onYes(): void {
   saidYes.value = true
 }
 </script>
