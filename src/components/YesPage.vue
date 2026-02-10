@@ -29,13 +29,11 @@ function heartStyle(_index: number): CSSProperties {
   <div class="text-center flex flex-col items-center justify-center p-6 relative min-h-screen w-full overflow-hidden">
     <Transition name="pop">
       <div v-if="showContent" class="flex flex-col items-center gap-6 z-10">
-        <h1
-          class="font-extrabold text-white text-[clamp(2.2rem,6vw,3.5rem)] [text-shadow:0_2px_10px_rgba(0,0,0,0.15)]"
-        >
+        <h1 class="font-extrabold text-white text-4xl md:text-6xl drop-shadow-md">
           Yeeeyyyy!!
         </h1>
 
-        <div class="w-[clamp(200px,45vw,320px)] rounded-2xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.18)]">
+        <div class="w-52 sm:w-64 md:w-80 rounded-2xl overflow-hidden shadow-2xl">
           <img
             src="https://media.giphy.com/media/Yz2NW6XR6EvmU4uWpa/giphy.gif"
             alt="Celebration!"
@@ -43,7 +41,7 @@ function heartStyle(_index: number): CSSProperties {
           />
         </div>
 
-        <p class="font-bold text-white/90 text-[clamp(1rem,3vw,1.4rem)]">
+        <p class="font-bold text-white/90 text-base md:text-xl drop-shadow-sm">
           I knew you'd say yes!
         </p>
       </div>

@@ -65,13 +65,11 @@ onUnmounted((): void => {
 
 <template>
   <div ref="container" class="text-center flex flex-col items-center gap-6 p-6">
-    <h1
-      class="font-extrabold text-white leading-tight text-[clamp(1.8rem,5vw,2.8rem)] [text-shadow:0_2px_10px_rgba(0,0,0,0.15)]"
-    >
+    <h1 class="font-extrabold text-white leading-tight text-3xl md:text-5xl drop-shadow-md">
       Do you wanna go out with me?
     </h1>
 
-    <div class="w-[clamp(180px,40vw,280px)] aspect-square rounded-2xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.18)]">
+    <div class="w-48 sm:w-56 md:w-72 aspect-square rounded-2xl overflow-hidden shadow-2xl">
       <img
         src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtZ2JiZDR0a3lvMWF4OG8yc3p6Ymdvd3g2d245amdveDhyYmx6eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif"
         alt="Cute bear asking you out"
@@ -81,7 +79,7 @@ onUnmounted((): void => {
 
     <div class="flex gap-5 justify-center items-center">
       <button
-        class="font-nunito text-lg font-bold py-3.5 px-10 border-none rounded-full cursor-pointer transition-[transform,box-shadow] duration-200 ease-in-out hover:scale-105 active:scale-[0.97] bg-gradient-to-br from-[#6c3483] to-[#512894] text-white shadow-[0_4px_15px_rgba(81,40,148,0.4)] hover:shadow-[0_6px_25px_rgba(81,40,148,0.55)]"
+        class="font-nunito text-lg font-bold py-3.5 px-10 border-none rounded-full cursor-pointer transition-[transform,box-shadow] duration-200 ease-in-out hover:scale-105 active:scale-95 bg-gradient-to-br from-brand-deeper to-brand-deepest text-white shadow-lg shadow-brand-deepest/40 hover:shadow-xl hover:shadow-brand-deepest/50"
         @click="handleYes"
       >
         Yes
@@ -90,7 +88,7 @@ onUnmounted((): void => {
       <button
         v-if="!hasEscaped"
         ref="noBtn"
-        class="font-nunito text-lg font-bold py-3.5 px-10 border-none rounded-full cursor-pointer transition-[transform,box-shadow] duration-200 ease-in-out hover:scale-105 active:scale-[0.97] bg-white text-[#7d3c98] shadow-[0_4px_15px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.15)]"
+        class="font-nunito text-lg font-bold py-3.5 px-10 border-none rounded-full cursor-pointer transition-[transform,box-shadow] duration-200 ease-in-out hover:scale-105 active:scale-95 bg-white text-brand-dark shadow-md hover:shadow-lg"
         @mouseenter="escapeButton(EscapeTrigger.MouseEnter)"
         @click="escapeButton(EscapeTrigger.Click)"
         @touchstart.prevent="escapeButton(EscapeTrigger.TouchStart)"
@@ -103,7 +101,7 @@ onUnmounted((): void => {
     <button
       v-if="hasEscaped"
       ref="noBtn"
-      class="btn-no-escaped fixed z-100 font-nunito text-lg font-bold py-3.5 px-10 border-none rounded-full cursor-pointer hover:scale-105 active:scale-[0.97] bg-white text-[#7d3c98] shadow-[0_4px_15px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.15)]"
+      class="btn-no-escaped fixed z-100 font-nunito text-lg font-bold py-3.5 px-10 border-none rounded-full cursor-pointer hover:scale-105 active:scale-95 bg-white text-brand-dark shadow-md hover:shadow-lg"
       :style="{
         left: noPosition.x + 'px',
         top: noPosition.y + 'px',

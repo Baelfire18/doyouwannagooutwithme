@@ -2,6 +2,14 @@
 
 @theme {
   --font-nunito: 'Nunito', sans-serif;
+
+  /* Custom brand palette (original colors) */
+  --color-brand-light: #c3a1d0;
+  --color-brand: #9b59b6;
+  --color-brand-dark: #7d3c98;
+  --color-brand-deeper: #6c3483;
+  --color-brand-deepest: #512894;
+
 }
 
 /* Vue transition: fade (App.vue page switch) */
