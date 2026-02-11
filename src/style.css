@@ -32,7 +32,7 @@
 }
 
 /* Escaped No button — needs cubic-bezier on left/top which Tailwind can't do inline */
-.btn-no-escaped {
+.btn-no-moving {
   transition:
     left 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
     top 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
