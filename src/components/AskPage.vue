@@ -83,7 +83,7 @@ onUnmounted((): void => {
       Do you wanna go out with me?
     </h1>
 
-    <div class="w-48 sm:w-56 md:w-72 aspect-square rounded-2xl overflow-hidden shadow-2xl">
+    <div class="w-48 sm:w-56 md:w-72 aspect-square rounded-2xl overflow-hidden">
       <img
         src="../assets/ask.gif"
         alt="Cute bear asking you out" class="w-full h-full object-cover block" />
