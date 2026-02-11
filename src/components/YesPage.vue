@@ -35,7 +35,7 @@ function heartStyle(_index: number): CSSProperties {
 
         <div class="w-52 sm:w-64 md:w-80 rounded-2xl overflow-hidden shadow-2xl">
           <img
-            src="https://media.giphy.com/media/Yz2NW6XR6EvmU4uWpa/giphy.gif"
+            src="../assets/yes.gif"
             alt="Celebration!"
             class="w-full block"
           />
