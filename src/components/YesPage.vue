@@ -33,7 +33,7 @@ function heartStyle(_index: number): CSSProperties {
           Yeeeyyyy!!
         </h1>
 
-        <div class="w-52 sm:w-64 md:w-80 rounded-2xl overflow-hidden shadow-2xl">
+        <div class="w-52 sm:w-64 md:w-80">
           <img
             src="../assets/yes.gif"
             alt="Celebration!"
